@@ -12,7 +12,7 @@ Add this as a dependency in your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_fadein: ^1.0.0
+  flutter_fadein: ^1.0.1
 ```
 
 ## Usage
