@@ -27,3 +27,24 @@ FadeIn(
   curve: Curves.easeIn,
 )
 ```
+
+### With Controller
+
+If you need more control over the animation timing, you can use `FadeInController`:
+
+```dart
+final controller = FadeInController();
+
+// ...
+
+FadeIn(
+  child: Text("This will be faded-in with a controller"),
+  controller: controller,
+)
+
+// ...
+controller.fadeIn();
+controller.fadeOut();
+```
+
+Using a controller with not automatically start. You can make it automatically start using `FadeInController(autoStart: true)`.
