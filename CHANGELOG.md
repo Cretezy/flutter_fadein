@@ -1,3 +1,7 @@
+## 1.1.1 - 2019-06-18
+
+- Forgot to bump README version
+
 ## 1.1.0 - 2019-06-18
 
 - Add `FadeInController`

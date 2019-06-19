@@ -1,6 +1,6 @@
 name: flutter_fadein
 description: Simple Flutter widget to fade-in your widgets once they are mounted.
-version: 1.1.0
+version: 1.1.1
 author: Charles Crete <charles@cretezy.com>
 homepage: https://github.com/Cretezy/flutter_fadein
 

@@ -12,7 +12,7 @@ Add this as a dependency in your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_fadein: ^1.0.1
+  flutter_fadein: ^1.1.1
 ```
 
 ## Usage
@@ -43,6 +43,7 @@ FadeIn(
 )
 
 // ...
+
 controller.fadeIn();
 controller.fadeOut();
 ```
