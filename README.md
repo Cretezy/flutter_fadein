@@ -26,6 +26,7 @@ FadeIn(
   child: Text("This will be faded-in!"),
   // Optional paramaters
   duration: Duration(milliseconds: 250),
+  delay: Duration(milliseconds: 250)
   curve: Curves.easeIn,
 )
 ```
@@ -51,3 +52,4 @@ controller.fadeOut();
 ```
 
 Using a controller with not automatically start. You can make it automatically start using `FadeInController(autoStart: true)`.
+Note that the `delay` parameter does not work while using a controller, and will therefore raise an exception.

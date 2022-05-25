@@ -12,6 +12,9 @@ class FadeIn extends StatefulWidget {
   /// Duration of fade-in. Defaults to 250ms
   final Duration duration;
 
+  /// Delay before fade-in. Defaults to 0ms. Cannot be used with a controller
+  final Duration delay;
+
   /// Fade-in curve. Defaults to [Curves.easeIn]
   final Curve curve;
 
@@ -20,6 +23,7 @@ class FadeIn extends StatefulWidget {
     this.controller,
     this.child,
     this.duration = const Duration(milliseconds: 250),
+    this.delay = const Duration(),
     this.curve = Curves.easeIn,
   }) : super(key: key);
 
@@ -64,6 +68,9 @@ class _FadeInState extends State<FadeIn> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
+    if (widget.controller != null && widget.delay.inMicroseconds > 0)
+      throw "Fadein controller and delay cannot be used together";
+
     _controller = AnimationController(
       vsync: this,
       duration: widget.duration,
@@ -72,7 +79,7 @@ class _FadeInState extends State<FadeIn> with TickerProviderStateMixin {
     _setupCurve();
 
     if (widget.controller?.autoStart != false) {
-      fadeIn();
+      Future.delayed(widget.delay).then((_) => fadeIn());
     }
 
     _listen();
