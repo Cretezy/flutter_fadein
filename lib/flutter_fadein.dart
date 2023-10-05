@@ -1,8 +1,19 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
 class FadeIn extends StatefulWidget {
+  const FadeIn({
+    super.key,
+    this.controller,
+    this.child,
+    this.duration = const Duration(milliseconds: 250),
+    this.curve = Curves.easeIn,
+    this.delay = Duration.zero,
+  });
+
   /// Fade-in controller
   final FadeInController? controller;
 
@@ -12,16 +23,11 @@ class FadeIn extends StatefulWidget {
   /// Duration of fade-in. Defaults to 250ms
   final Duration duration;
 
+  /// Delay before fade-in. Defaults to 0ms. Cannot be used with a controller
+  final Duration delay;
+
   /// Fade-in curve. Defaults to [Curves.easeIn]
   final Curve curve;
-
-  const FadeIn({
-    Key? key,
-    this.controller,
-    this.child,
-    this.duration = const Duration(milliseconds: 250),
-    this.curve = Curves.easeIn,
-  }) : super(key: key);
 
   @override
   _FadeInState createState() => _FadeInState();
@@ -34,12 +40,13 @@ enum FadeInAction {
 
 /// Fade-in controller which dispatches fade-in/fade-out actions
 class FadeInController {
-  final _streamController = StreamController<FadeInAction>();
+  FadeInController({
+    this.autoStart = false,
+  });
 
   /// Automatically starts the initial fade-in. Defaults to false
   final bool autoStart;
-
-  FadeInController({this.autoStart = false});
+  final _streamController = StreamController<FadeInAction>();
 
   void dispose() => _streamController.close();
 
@@ -64,6 +71,10 @@ class _FadeInState extends State<FadeIn> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
+    if (widget.controller != null && widget.delay.inMicroseconds > 0) {
+      throw 'Fadein controller and delay cannot be used together';
+    }
+
     _controller = AnimationController(
       vsync: this,
       duration: widget.duration,
@@ -71,8 +82,8 @@ class _FadeInState extends State<FadeIn> with TickerProviderStateMixin {
 
     _setupCurve();
 
-    if (widget.controller?.autoStart != false) {
-      fadeIn();
+    if (widget.controller!.autoStart != false) {
+      Future.delayed(widget.delay).then((_) => fadeIn());
     }
 
     _listen();
@@ -102,10 +113,8 @@ class _FadeInState extends State<FadeIn> with TickerProviderStateMixin {
     switch (action) {
       case FadeInAction.fadeIn:
         fadeIn();
-        break;
       case FadeInAction.fadeOut:
         fadeOut();
-        break;
     }
   }
 
